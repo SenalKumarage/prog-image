@@ -19,15 +19,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
-import { S3Service } from 'src/common/services/s3.service';
-import {
-  UploadRequestBody,
-  UploadRequestResponse,
-} from 'src/dto/UploadRequest';
-import {
-  UploadRecordRequest,
-  UploadRecordResponse,
-} from 'src/dto/UploadRecord';
+import { S3Service } from '../common/services/s3.service';
+import { UploadRequestBody, UploadRequestResponse } from '../dto/UploadRequest';
+import { UploadRecordRequest, UploadRecordResponse } from '../dto/UploadRecord';
 import { ImageService } from './image.service';
 
 @ApiTags('Image')
@@ -36,7 +30,7 @@ export class ImageController {
   constructor(
     private s3Service: S3Service,
     private imageService: ImageService,
-  ) {}
+  ) { }
 
   @Get(':id')
   // @ApiResponse({ status: 200, type: UserAccount, description: 'Success' })

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { getConfig } from 'src/config/config.service';
+import { getConfig } from '../../config/config.service';
 
 const conf = getConfig();
 

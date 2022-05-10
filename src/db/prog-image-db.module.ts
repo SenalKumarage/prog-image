@@ -1,8 +1,8 @@
 import { MongoConnectionOptions } from 'typeorm/driver/mongodb/MongoConnectionOptions';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConfig } from 'src/config/config.service';
-import { UploadRecord } from 'src/dto/UploadRecord';
+import { getConfig } from '../config/config.service';
+import { UploadRecord } from '../dto/UploadRecord';
 
 export const PROG_IMAGE_MONGODB_CONNECTION = 'progImageMongoDBConnection';
 
@@ -31,4 +31,4 @@ const mongoConnectionOpts: MongoConnectionOptions = {
     TypeOrmModule.forFeature([UploadRecord], PROG_IMAGE_MONGODB_CONNECTION),
   ],
 })
-export class ProgImageDBModule {}
+export class ProgImageDBModule { }

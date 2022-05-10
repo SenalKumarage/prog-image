@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PROG_IMAGE_MONGODB_CONNECTION } from 'src/db/prog-image-db.module';
-import { UploadRecord, UploadRecordRequest } from 'src/dto/UploadRecord';
+import { PROG_IMAGE_MONGODB_CONNECTION } from '../db/prog-image-db.module';
+import { UploadRecord, UploadRecordRequest } from '../dto/UploadRecord';
 import { MongoRepository } from 'typeorm/repository/MongoRepository';
 import * as sharp from 'sharp';
 
@@ -10,7 +10,7 @@ export class ImageService {
   constructor(
     @InjectRepository(UploadRecord, PROG_IMAGE_MONGODB_CONNECTION)
     private readonly imageRepo: MongoRepository<UploadRecord>,
-  ) {}
+  ) { }
 
   public async save(input: UploadRecordRequest): Promise<string | undefined> {
     const { insertedId } = await this.imageRepo.insertOne({
