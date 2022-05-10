@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  backend:
+    image: prog_image_/api
+    container_name: prog_image__api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./src/:/app/src
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: progimgdb
+    ports:
+        - ${PROGIMG_MONGODB_PORT}:${PROGIMG_MONGODB_PORT}
+    volumes:
+        - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
