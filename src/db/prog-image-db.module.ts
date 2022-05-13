@@ -31,4 +31,4 @@ const mongoConnectionOpts: MongoConnectionOptions = {
     TypeOrmModule.forFeature([UploadRecord], PROG_IMAGE_MONGODB_CONNECTION),
   ],
 })
-export class ProgImageDBModule { }
+export class ProgImageDBModule {}
