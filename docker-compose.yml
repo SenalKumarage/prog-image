@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   backend:
-    image: prog_image_/api
-    container_name: prog_image__api
+    image: prog_image/api
+    container_name: prog_image_api
     build:
       context: .
       dockerfile: Dockerfile
