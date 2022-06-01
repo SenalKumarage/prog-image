@@ -1,11 +1,13 @@
-db.auth('admin', 'password');
-db = db.getSiblingDB('progimgdb');
 db.createUser({
-  user: 'progimg',
+  user: 'progImgAdmin',
   pwd: 'admin',
   roles: [
     {
-      role: 'readWrite',
+      role: 'read',
+      db: 'progimgdb',
+    },
+    {
+      role: 'dbAdmin',
       db: 'progimgdb',
     },
   ],

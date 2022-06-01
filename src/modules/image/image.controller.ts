@@ -18,10 +18,16 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import {
+  UploadRecordRequest,
+  UploadRecordResponse,
+} from 'src/dto/UploadRecord';
+import {
+  UploadRequestBody,
+  UploadRequestResponse,
+} from 'src/dto/UploadRequest';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Service } from '../common/services/s3.service';
-import { UploadRequestBody, UploadRequestResponse } from '../dto/UploadRequest';
-import { UploadRecordRequest, UploadRecordResponse } from '../dto/UploadRecord';
 import { ImageService } from './image.service';
 
 @ApiTags('Image')
@@ -30,7 +36,7 @@ export class ImageController {
   constructor(
     private s3Service: S3Service,
     private imageService: ImageService,
-  ) { }
+  ) {}
 
   @Get(':id')
   // @ApiResponse({ status: 200, type: UserAccount, description: 'Success' })
@@ -70,7 +76,7 @@ export class ImageController {
         data = await this.imageService.convert(original.Body, type);
       }
       res.setHeader('Content-Type', `image/${type}`);
-      res.attachment(`${imageRecord._id}.${type}`);
+      res.setHeader('Content-Disposition', 'inline;');
 
       return new StreamableFile(data);
     } catch (error) {

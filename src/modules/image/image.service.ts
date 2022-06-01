@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PROG_IMAGE_MONGODB_CONNECTION } from '../db/prog-image-db.module';
-import { UploadRecord, UploadRecordRequest } from '../dto/UploadRecord';
+import { PROG_IMAGE_MONGODB_CONNECTION } from '../../db/prog-image-db.module';
+import { UploadRecord, UploadRecordRequest } from '../../dto/UploadRecord';
 import { MongoRepository } from 'typeorm/repository/MongoRepository';
 import * as sharp from 'sharp';
 

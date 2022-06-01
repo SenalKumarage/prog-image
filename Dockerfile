@@ -4,7 +4,7 @@ WORKDIR /app
 COPY *.json /app/
 COPY *.lock /app/
 COPY src/ /app/src/
-COPY default.env .env
+COPY .env .env
 RUN yarn install
 RUN yarn build
 
@@ -16,7 +16,7 @@ RUN rm .env
 
 FROM devbuild as pre-prod
 RUN yarn install --production
-EXPOSE 9000
+EXPOSE 3000
 
 FROM devbuild as production-build
 COPY --from=pre-prod --chown=node:node /app/node_modules /app/node_modules
