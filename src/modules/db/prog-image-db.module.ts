@@ -12,7 +12,7 @@ const mongoConnectionOpts: MongoConnectionOptions = {
   database: conf.db.name,
   authSource: 'admin',
   entities: [UploadRecord],
-  host: conf.db.host,
+  host: process.env.NODE_ENV === 'dev' ? 'localhost' : conf.db.host,
   logging: true,
   name: PROG_IMAGE_MONGODB_CONNECTION,
   password: conf.db.password,
