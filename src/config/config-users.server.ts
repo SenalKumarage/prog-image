@@ -15,12 +15,18 @@ const secretAccessKey = fetchEnvVariable(
 
 const region = fetchEnvVariable('REGION', 'no region has provided');
 
+const defaultS3Bucket = fetchEnvVariable(
+  'DEFAULT_S3_BUCKET',
+  'no defaultS3Bucket has provided',
+);
+
 const loadConfig = (): ServerConfig => {
   return {
     port,
     accessKeyId,
     secretAccessKey,
     region,
+    defaultS3Bucket,
   };
 };
 

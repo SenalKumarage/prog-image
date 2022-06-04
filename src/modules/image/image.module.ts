@@ -7,7 +7,7 @@ import { ImageService } from './image.service';
 @Module({
   controllers: [ImageController],
   exports: [],
-  imports: [CommonModule, ProgImageDBModule],
+  imports: [ProgImageDBModule, CommonModule],
   providers: [ImageService],
 })
 export class ImageModule {}

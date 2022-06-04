@@ -7,7 +7,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${PORT}:${PORT}"
+      - ${PORT}:${PORT}
+    depends_on:
+      - mongodb
     volumes:
       - ./src/:/app/src
   mongodb:
@@ -15,9 +17,9 @@ services:
     container_name: mongodb
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: progimgdb
+      MONGO_INITDB_ROOT_USERNAME: ${PROGIMG_MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${PROGIMG_MONGODB_PASS}
+      MONGO_INITDB_DATABASE: ${PROGIMG_MONGODB_DB}
     ports:
         - ${PROGIMG_MONGODB_PORT}:${PROGIMG_MONGODB_PORT}
     volumes:

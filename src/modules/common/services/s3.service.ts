@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { getConfig } from '../../config/config.service';
+import { getConfig } from '../../../config/config.service';
 
 const conf = getConfig();
 
 @Injectable()
 export class S3Service {
   private s3 = null;
+
   constructor() {
     this.s3 = new S3({
       accessKeyId: conf.server.accessKeyId,
@@ -14,12 +15,14 @@ export class S3Service {
       region: conf.server.region,
     });
   }
+
   public async getSignedUrl(
     fileName: string,
     contentType: string,
+    bucket = conf.server.defaultS3Bucket,
   ): Promise<any> {
     const params = {
-      Bucket: 'prog-image-1',
+      Bucket: bucket,
       Key: fileName,
       ContentType: contentType,
     };
@@ -27,9 +30,12 @@ export class S3Service {
     return await this.s3.getSignedUrl('putObject', params);
   }
 
-  public async getImage(fileName: string): Promise<any> {
+  public async getImage(
+    fileName: string,
+    bucket = conf.server.defaultS3Bucket,
+  ): Promise<any> {
     const params = {
-      Bucket: 'prog-image-1',
+      Bucket: bucket,
       Key: fileName,
     };
 
