@@ -20,5 +20,5 @@ If everything went smoothly the swagger api should be running on your specified 
 
 ### Changing default ports
 > Do these changes if needed before running the above steps
-- **REST server:** Change the `PORT` value in `./default.env`
-- **DB server:** Change the `PROGIMG_MONGODB_PORT` value in  `./default.env`
+- **REST server:** Change the `PORT` value in `./.env`
+- **DB server:** Change the `PROGIMG_MONGODB_PORT` value in  `./.env`
