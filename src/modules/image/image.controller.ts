@@ -6,6 +6,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   Res,
@@ -26,23 +27,18 @@ import {
   UploadRequestBody,
   UploadRequestResponse,
 } from 'src/dto/UploadRequest';
-import { v4 as uuidv4 } from 'uuid';
-import { S3Service } from '../common/services/s3.service';
 import { ImageService } from './image.service';
+import { ImageType } from './prog-image';
 
 @ApiTags('Image')
 @Controller('image')
 export class ImageController {
-  constructor(
-    private s3Service: S3Service,
-    private imageService: ImageService,
-  ) {}
+  constructor(private imageService: ImageService) {}
 
   @Get(':id')
-  // @ApiResponse({ status: 200, type: UserAccount, description: 'Success' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Not Found' })
-  @ApiOperation({ summary: 'Get account details' })
+  @ApiOperation({ summary: 'Get image' })
   @ApiParam({
     description: 'Image id',
     name: 'id',
@@ -55,32 +51,25 @@ export class ImageController {
     required: true,
     type: 'string',
   })
+  @ApiQuery({
+    description: 'Sigma value for image blur',
+    name: 'blur',
+    required: false,
+    type: 'number',
+  })
   @HttpCode(HttpStatus.OK)
   public async getImageId(
     @Param('id') id: string,
-    @Query('type') type: string,
+    @Query('type') type: ImageType,
+    @Query('blur', ParseIntPipe) blur: number,
     @Res({ passthrough: true }) res,
   ): Promise<StreamableFile> {
     try {
-      let data = null;
-      const imageRecord = await this.imageService.getById(id);
-      // check if the content type exists
-      if (imageRecord.contentTypes?.includes(type)) {
-        data = (
-          await this.s3Service.getImage(`${imageRecord.imageUrl}.${type}`)
-        ).Body;
-      } else {
-        const original = await this.s3Service.getImage(
-          `${imageRecord.imageUrl}.${imageRecord.initialType}`,
-        );
-        data = await this.imageService.convert(original.Body, type);
-      }
       res.setHeader('Content-Type', `image/${type}`);
       res.setHeader('Content-Disposition', 'inline;');
 
-      return new StreamableFile(data);
+      return this.imageService.getImage(id, { type, blur });
     } catch (error) {
-      console.error(error);
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
@@ -99,16 +88,10 @@ export class ImageController {
     @Body() input: UploadRequestBody,
   ): Promise<UploadRequestResponse> {
     try {
-      const imgKey = `${uuidv4()}/${input.imageName}.${input.contentType}`;
-      const signedUrl = await this.s3Service.getSignedUrl(
-        imgKey,
-        `image/${input.contentType}`,
+      return this.imageService.requestImageUpload(
+        input.imageName,
+        input.contentType,
       );
-
-      return {
-        imageUrl: imgKey,
-        uploadUrl: signedUrl,
-      };
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
@@ -128,10 +111,8 @@ export class ImageController {
     @Body() input: UploadRecordRequest,
   ): Promise<UploadRecordResponse> {
     try {
-      const id = await this.imageService.save(input);
-
       return {
-        id,
+        id: await this.imageService.save(input),
       };
     } catch (error) {
       throw new HttpException(error, HttpStatus.BAD_REQUEST);

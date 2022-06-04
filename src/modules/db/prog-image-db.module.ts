@@ -1,8 +1,8 @@
 import { MongoConnectionOptions } from 'typeorm/driver/mongodb/MongoConnectionOptions';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConfig } from '../config/config.service';
-import { UploadRecord } from '../dto/UploadRecord';
+import { getConfig } from '../../config/config.service';
+import { UploadRecord } from '../../dto/UploadRecord';
 
 export const PROG_IMAGE_MONGODB_CONNECTION = 'progImageMongoDBConnection';
 

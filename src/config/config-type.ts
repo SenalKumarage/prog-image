@@ -16,4 +16,5 @@ export interface ServerConfig {
   readonly accessKeyId: string;
   readonly secretAccessKey: string;
   readonly region: string;
+  readonly defaultS3Bucket: string;
 }
