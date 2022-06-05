@@ -31,8 +31,4 @@ export class ProgImage {
   public async blur(sigma: number) {
     this.imgObj = await this.imgObj.blur(sigma);
   }
-
-  public async rotate(angle: number) {
-    this.imgObj = await this.imgObj.rotate(angle);
-  }
 }
